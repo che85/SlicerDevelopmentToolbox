@@ -711,12 +711,12 @@ class ModuleLogicMixin(GeneralModuleMixin):
     return node
 
   @staticmethod
-  def saveNodeData(node, outputDir, extension, replaceUnwantedCharacters=True, name=None, overwrite=True):
+  def saveNodeData(node, outputDir, extension, replaceUnwantedCharacters=True, name=None):
     name = name if name else node.GetName()
     if replaceUnwantedCharacters:
       name = ModuleLogicMixin.replaceUnwantedCharacters(name)
     filename = os.path.join(outputDir, name + extension)
-    if os.path.exists(filename) and not overwrite:
+    if os.path.exists(filename) and not node.GetModifiedSinceRead():
       return True, name
     return slicer.util.saveNode(node, filename), name
 
